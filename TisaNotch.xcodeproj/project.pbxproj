@@ -1,0 +1,208 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CA8700000000000000000011 /* TisaNotchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8700000000000000000021 /* TisaNotchApp.swift */; };
+		CA8700000000000000000012 /* Booth.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8700000000000000000022 /* Booth.swift */; };
+		CA8700000000000000000013 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8700000000000000000023 /* Camera.swift */; };
+		CA8700000000000000000014 /* PostageStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8700000000000000000024 /* PostageStamp.swift */; };
+		CA8700000000000000000015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA8700000000000000000025 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CA8700000000000000000021 /* TisaNotchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TisaNotchApp.swift; sourceTree = "<group>"; };
+		CA8700000000000000000022 /* Booth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booth.swift; sourceTree = "<group>"; };
+		CA8700000000000000000023 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		CA8700000000000000000024 /* PostageStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostageStamp.swift; sourceTree = "<group>"; };
+		CA8700000000000000000025 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CA8700000000000000000026 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA8700000000000000000027 /* TisaNotch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TisaNotch.entitlements; sourceTree = "<group>"; };
+		CA8700000000000000000028 /* Tisa Notch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tisa Notch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CA8700000000000000000033 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CA8700000000000000000003 = {
+			isa = PBXGroup;
+			children = (
+				CA8700000000000000000004 /* TisaNotch */,
+				CA8700000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CA8700000000000000000004 /* TisaNotch */ = {
+			isa = PBXGroup;
+			children = (
+				CA8700000000000000000021 /* TisaNotchApp.swift */,
+				CA8700000000000000000022 /* Booth.swift */,
+				CA8700000000000000000023 /* Camera.swift */,
+				CA8700000000000000000024 /* PostageStamp.swift */,
+				CA8700000000000000000025 /* Assets.xcassets */,
+				CA8700000000000000000026 /* Info.plist */,
+				CA8700000000000000000027 /* TisaNotch.entitlements */,
+			);
+			path = TisaNotch;
+			sourceTree = "<group>";
+		};
+		CA8700000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (CA8700000000000000000028 /* Tisa Notch.app */,);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CA8700000000000000000002 /* Tisa Notch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA8700000000000000000042;
+			buildPhases = (
+				CA8700000000000000000031 /* Sources */,
+				CA8700000000000000000033 /* Frameworks */,
+				CA8700000000000000000032 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = "Tisa Notch";
+			productName = "Tisa Notch";
+			productReference = CA8700000000000000000028 /* Tisa Notch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CA8700000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2600;
+			};
+			buildConfigurationList = CA8700000000000000000041;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base,);
+			mainGroup = CA8700000000000000000003;
+			productRefGroup = CA8700000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (CA8700000000000000000002 /* Tisa Notch */,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CA8700000000000000000032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (CA8700000000000000000015 /* Assets.xcassets in Resources */,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CA8700000000000000000031 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA8700000000000000000011 /* TisaNotchApp.swift in Sources */,
+				CA8700000000000000000012 /* Booth.swift in Sources */,
+				CA8700000000000000000013 /* Camera.swift in Sources */,
+				CA8700000000000000000014 /* PostageStamp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CA8700000000000000000051 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CA8700000000000000000052 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		CA8700000000000000000053 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TisaNotch/TisaNotch.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TisaNotch/Info.plist;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuntisa.tisanotch.studio;
+				PRODUCT_NAME = "Tisa Notch";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CA8700000000000000000054 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TisaNotch/TisaNotch.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TisaNotch/Info.plist;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuntisa.tisanotch.studio;
+				PRODUCT_NAME = "Tisa Notch";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA8700000000000000000041 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (CA8700000000000000000051, CA8700000000000000000052,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA8700000000000000000042 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (CA8700000000000000000053, CA8700000000000000000054,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CA8700000000000000000001 /* Project object */;
+}
