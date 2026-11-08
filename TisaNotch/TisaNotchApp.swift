@@ -21,6 +21,13 @@ private final class AppController: NSObject, NSApplicationDelegate, NSMenuDelega
     private var panel: NotchPanel?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.installStatusItem()
+            self.showBooth()
+        }
+    }
+
+    private func installStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         self.item = item
         if let button = item.button {
@@ -48,9 +55,12 @@ private final class AppController: NSObject, NSApplicationDelegate, NSMenuDelega
     @objc private func toggleBooth() {
         if panel?.isVisible == true {
             closeBooth()
-            return
+        } else {
+            showBooth()
         }
+    }
 
+    private func showBooth() {
         let mouse = NSEvent.mouseLocation
         guard let screen = NSScreen.screens.first(where: { $0.frame.contains(mouse) }) ?? NSScreen.main else { return }
         let panel = panel ?? makePanel()

@@ -7,6 +7,7 @@ import UniformTypeIdentifiers
 final class Booth: ObservableObject {
     @Published var layout = StampLayout.three
     @Published var delay = 3
+    @Published var mirrorFrontCamera = true
     @Published private(set) var isCapturing = false
     @Published private(set) var photoNumber = 0
     @Published private(set) var countdown: Int?
@@ -17,6 +18,10 @@ final class Booth: ObservableObject {
     let camera = Camera()
     private var sequence: Task<Void, Never>?
     private var artworkLayout = StampLayout.three
+
+    var cameraMirroring: Bool? {
+        camera.canMirrorFrontCamera ? mirrorFrontCamera : nil
+    }
 
     func opened() {
         if artwork == nil {
@@ -33,6 +38,7 @@ final class Booth: ObservableObject {
         guard camera.status == .ready, sequence == nil, artwork == nil else { return }
         let chosenLayout = layout
         let delay = self.delay
+        let mirroring = cameraMirroring
         message = nil
         isCapturing = true
         sequence = Task {
@@ -52,7 +58,7 @@ final class Booth: ObservableObject {
                         try await Task.sleep(for: .seconds(1))
                     }
                     countdown = nil
-                    let photo = try await camera.takePhoto()
+                    let photo = try await camera.takePhoto(mirroring: mirroring)
                     try Task.checkCancellation()
                     photos.append(photo)
                 }
@@ -184,7 +190,7 @@ struct BoothView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 16).fill(.black.opacity(0.4))
                 if camera.status == .ready {
-                    CameraPreview(session: camera.session)
+                    CameraPreview(session: camera.session, mirroring: booth.cameraMirroring)
                     if booth.isCapturing {
                         captureOverlay
                     }
@@ -194,6 +200,13 @@ struct BoothView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .frame(minHeight: 125, maxHeight: .infinity)
+
+            if camera.canMirrorFrontCamera {
+                Toggle("Mirror front camera", isOn: $booth.mirrorFrontCamera)
+                    .toggleStyle(.checkbox)
+                    .font(.caption)
+                    .disabled(booth.isCapturing)
+            }
 
             HStack(spacing: 14) {
                 VStack(alignment: .leading, spacing: 4) {
@@ -318,12 +331,15 @@ struct BoothView: View {
 
 private struct CameraPreview: NSViewRepresentable {
     let session: AVCaptureSession
+    let mirroring: Bool?
 
     func makeNSView(context: Context) -> PreviewView {
         PreviewView(session: session)
     }
 
-    func updateNSView(_ nsView: PreviewView, context: Context) {}
+    func updateNSView(_ nsView: PreviewView, context: Context) {
+        nsView.setMirroring(mirroring)
+    }
 
     final class PreviewView: NSView {
         private let previewLayer: AVCaptureVideoPreviewLayer
@@ -336,6 +352,10 @@ private struct CameraPreview: NSViewRepresentable {
         }
 
         required init?(coder: NSCoder) { return nil }
+
+        func setMirroring(_ mirroring: Bool?) {
+            previewLayer.connection?.setVideoMirroring(mirroring)
+        }
 
         override func makeBackingLayer() -> CALayer {
             previewLayer

@@ -3,7 +3,9 @@ import Combine
 import Foundation
 import ImageIO
 
-final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
+// The main actor owns the UI state. The serial camera queue owns session
+// configuration and pending captures. The preview only attaches to the session.
+final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, @unchecked Sendable {
     enum Status: Equatable {
         case off
         case opening
@@ -33,14 +35,14 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
     }
 
     let session = AVCaptureSession()
-    @Published private(set) var status: Status = .off
+    @MainActor @Published private(set) var status: Status = .off
+    @MainActor @Published private(set) var canMirrorFrontCamera = false
 
     private let queue = DispatchQueue(label: "com.kuntisa.tisanotch.studio.camera")
     private let output = AVCapturePhotoOutput()
     // Session graph and photo requests are accessed only on the camera queue.
     private var capture: Capture?
-    // The current request to open the camera is tracked on the main actor.
-    private var openingID = UUID()
+    @MainActor private var openingID = UUID()
 
     @MainActor func start() {
         guard status != .opening, status != .ready else { return }
@@ -72,6 +74,7 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
     @MainActor func stop() {
         openingID = UUID()
         status = .off
+        canMirrorFrontCamera = false
         queue.async {
             if let pending = self.capture {
                 self.capture = nil
@@ -83,24 +86,26 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
 
     @MainActor private func startSession(for id: UUID) {
         queue.async {
-            let nextStatus: Status
+            let next: (status: Status, canMirrorFrontCamera: Bool)
             do {
-                try self.configureSession()
+                let isFrontCamera = try self.configureSession()
                 self.session.startRunning()
                 guard self.session.isRunning else { throw Failure.unavailable }
-                nextStatus = .ready
+                let supportsMirroring = self.output.connection(with: .video)?.isVideoMirroringSupported == true
+                next = (.ready, isFrontCamera && supportsMirroring)
             } catch {
                 self.resetSession()
-                nextStatus = .failed(error.localizedDescription)
+                next = (.failed(error.localizedDescription), false)
             }
             DispatchQueue.main.async {
                 guard self.openingID == id else { return }
-                self.status = nextStatus
+                self.canMirrorFrontCamera = next.canMirrorFrontCamera
+                self.status = next.status
             }
         }
     }
 
-    private func configureSession() throws {
+    private func configureSession() throws -> Bool {
         guard let device = AVCaptureDevice.default(for: .video) else {
             throw Failure.unavailable
         }
@@ -114,6 +119,9 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
         session.addInput(input)
         guard session.canAddOutput(output) else { throw Failure.setup }
         session.addOutput(output)
+        // The built-in camera on some Macs reports an unspecified position.
+        return device.position == .front ||
+            (device.position == .unspecified && device.deviceType == .builtInWideAngleCamera)
     }
 
     private func resetSession() {
@@ -130,13 +138,13 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
         session.commitConfiguration()
     }
 
-    @MainActor func takePhoto() async throws -> CGImage {
+    @MainActor func takePhoto(mirroring: Bool?) async throws -> CGImage {
         try Task.checkCancellation()
         guard status == .ready else { throw Failure.unavailable }
         return try await withCheckedThrowingContinuation { continuation in
             queue.async {
                 guard self.session.isRunning,
-                      self.output.connection(with: .video)?.isActive == true else {
+                      let connection = self.output.connection(with: .video), connection.isActive else {
                     continuation.resume(throwing: Failure.unavailable)
                     return
                 }
@@ -145,6 +153,7 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
                     return
                 }
 
+                connection.setVideoMirroring(mirroring)
                 let settings = AVCapturePhotoSettings()
                 let id = settings.uniqueID
                 self.capture = Capture(id: id, continuation: continuation)
@@ -192,6 +201,16 @@ final class Camera: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
             } else {
                 pending.continuation.resume(with: pending.result ?? .failure(Failure.emptyPhoto))
             }
+        }
+    }
+}
+
+extension AVCaptureConnection {
+    func setVideoMirroring(_ mirroring: Bool?) {
+        guard let mirroring, isVideoMirroringSupported else { return }
+        automaticallyAdjustsVideoMirroring = false
+        if isVideoMirrored != mirroring {
+            isVideoMirrored = mirroring
         }
     }
 }
