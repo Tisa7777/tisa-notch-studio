@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#2d6a54"/>
+      <stop offset="1" stop-color="#142f2a"/>
+    </linearGradient>
+  </defs>
+  <rect x="90" y="107" width="844" height="844" rx="190" fill="#102620"/>
+  <rect x="90" y="83" width="844" height="844" rx="190" fill="url(#panel)"/>
+  <path d="M260 325H420L460 275H564L604 325H764Q804 325 804 365V700Q804 740 764 740H260Q220 740 220 700V365Q220 325 260 325Z" fill="#f1e3c5"/>
+  <circle cx="512" cy="526" r="153" fill="#1a4437"/>
+  <circle cx="512" cy="526" r="112" fill="none" stroke="#a2c9a5" stroke-width="5"/>
+  <path d="M512 444L594 526L512 608L430 526Z" fill="#bc7549"/>
+  <path d="M512 479L559 526L512 573L465 526Z" fill="#f1e3c5"/>
+  <rect x="690" y="377" width="55" height="17" rx="8.5" fill="#bc7549"/>
+</svg>
